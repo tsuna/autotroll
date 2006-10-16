@@ -54,6 +54,8 @@
 # $(TESTS): Makefile.am
 # 	for i in $(TESTS); do $(LN_S) -f $(srcdir)/test.sh $$i; done
                   # where test.sh is this script.  ^^^^^^^
+# If all your tests use the script, you don't have to bother with TESTS:
+# TESTS = $(check_PROGRAMS:=.test)
 
 # How to use
 # ----------
@@ -71,8 +73,10 @@
 # (reference) output. Running this again will simply update (overwrite)
 # reference files.
 #
-# You can also use GEN=stderr or GEN=ret.
-# If you encounter any problem, try make check DEBUG=1
+# You can also use `GEN=stderr' or `GEN=ret'.
+# If you encounter any problem, try `make check DEBUG=1'
+# You can also `make check SILENT=1' in order to get rid of the tests'
+# outputs.
 #
 # When you generate reference output files, you might want to version them.
 # When you run `make check GEN=something', files are generated in the build

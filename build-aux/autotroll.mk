@@ -1,5 +1,6 @@
+# Makerules.
 # This file is part of AutoTroll.
-# Copyright (C) 2006  Benoit Sigoure <tsuna@lrde.epita.fr>
+# Copyright (C) 2006  Benoit Sigoure.
 #
 # AutoTroll is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,39 +17,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
-## ------------- ##
-## Package setup ##
-## ------------- ##
+ # ------------- #
+ # DOCUMENTATION #
+ # ------------- #
 
-AC_INIT([AutoTroll Demo], [0.2], [tsuna@lrde.epita.fr], [autotroll-demo])
+# See autotroll.m4 :)
+SUFFIXES = .moc.cpp
+.h.moc.cpp:
+	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
-AC_CONFIG_AUX_DIR([build-aux])
+# FIXME: Add support for UIC?
 
-AM_INIT_AUTOMAKE([foreign -Wall])
-
-## -------------------- ##
-## Tool/Compilers setup ##
-## -------------------- ##
-
-# Look for a C++ compiler.
-AC_LANG([C++])
-AC_PROG_CXX
-
-# If you need to create a library, USE libtool:
-AC_PROG_LIBTOOL
-
-# If you happen to have some C code:
-#AC_LANG([C])
-#AC_PROG_CC
-
-# AutoTroll with Qt.
-AT_WITH_QT
-
-AC_CONFIG_FILES([
-  Makefile
-    src/Makefile
-    gui/Makefile
-    tests/Makefile
-])
-
-AC_OUTPUT
+DISTCLEANFILES = $(BUILT_SOURCES)
