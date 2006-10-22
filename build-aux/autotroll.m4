@@ -62,6 +62,9 @@
 # BUILT_SOURCES = lcdrange.moc.cpp
 # -------------------------------------------------------------------------
 
+m4_pattern_forbid([^AT_])dnl
+m4_pattern_forbid([^_AT_])dnl
+
 # AT_WITH_QT([QT_modules], [QT_config], [QT_misc])
 # ------------------------------------------------
 # Enable Qt support and add an option --with-qt to the configure script.
@@ -87,7 +90,11 @@
 # the build process of Qt apps if tweaking the QT or CONFIG variables isn't
 # enough for you.
 AC_DEFUN([AT_WITH_QT],
-[ test x"$TROLL" != x && echo 'ViM rox emacs.'
+[ AC_REQUIRE([AC_CANONICAL_HOST])
+  AC_REQUIRE([AC_CANONICAL_BUILD])
+  AC_REQUIRE([AC_PROG_CXX])
+
+  test x"$TROLL" != x && echo 'ViM rox emacs.'
 
 dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   AC_ARG_WITH([qt],
@@ -263,9 +270,26 @@ instead" >&AS_MESSAGE_LOG_FD
   AC_SUBST([QT_LFLAGS], [$at_cv_env_QT_LDFLAGS])
   AC_SUBST([QT_LDFLAGS], [$at_cv_env_QT_LDFLAGS])
 
+  AC_MSG_CHECKING([whether host operating system is Darwin])
+  at_darwin="no"
+  case $host_os in
+    darwin*)
+      at_darwin="yes"
+      ;;
+  esac
+  AC_MSG_RESULT([$at_darwin])
+
   # Find the LIBS of Qt.
   AC_CACHE_CHECK([for the LIBS to use with Qt], [at_cv_env_QT_LIBS],
-  [at_cv_env_QT_LIBS=`sed "/^LIBS@<:@^A-Z@:>@*=/!d;$qt_sed_filter" Makefile`])
+  [at_cv_env_QT_LIBS=`sed "/^LIBS@<:@^A-Z@:>@*=/!d;$qt_sed_filter" Makefile`
+   if test x$at_darwin = xyes; then
+     # Fix QT_LIBS: as of today Libtool (GNU Libtool 1.5.23a) doesn't handle
+     # -F properly. The "bug" has been fixed on 22 October 2006
+     # by Peter O'Gorman but we provide backward compatibility here.
+     at_cv_env_QT_LIBS=`echo "$at_cv_env_QT_LIBS" \
+                             | sed 's/^-F/-Wl,-F/;s/ -F/ -Wl,-F/g'`
+   fi
+  ])
   AC_SUBST([QT_LIBS], [$at_cv_env_QT_LIBS])
 
   cd ..
