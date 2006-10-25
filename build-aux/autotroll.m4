@@ -213,18 +213,37 @@ m4_ifval([$3],
   else
     echo "$as_me:$LINENO: Build failed, trying to #include <qobject.h> \
 instead" >&AS_MESSAGE_LOG_FD
-    sed 's/<QObject>/<qobject.h>/' conftest.h > tmp.h
-    mv tmp.h conftest.h
+    sed 's/<QObject>/<qobject.h>/' conftest.h > tmp.h && mv tmp.h conftest.h
     if $MAKE >&AS_MESSAGE_LOG_FD 2>&1; then
       at_cv_qt_build='ok, looks like Qt 3'
     else
-      at_cv_qt_build=ko
-      echo "$as_me:$LINENO: failed program was:" >&AS_MESSAGE_LOG_FD
-      sed 's/^/| /' conftest.h >&AS_MESSAGE_LOG_FD
-      echo "$as_me:$LINENO: failed program was:" >&AS_MESSAGE_LOG_FD
-      sed 's/^/| /' conftest.cpp >&AS_MESSAGE_LOG_FD
-    fi
-  fi
+      # Sometimes (such as on Debian) build will fail because Qt hasn't been
+      # installed in debug mode and qmake tries (by default) to build apps in
+      # debug mode => Try again in release mode.
+      echo "$as_me:$LINENO: Build failed, trying to enforce release mode" \
+            >&AS_MESSAGE_LOG_FD
+
+      _AT_TWEAK_PRO_FILE([CONFIG], [+release])
+
+      sed 's/<qobject.h>/<QObject>/' conftest.h > tmp.h && mv tmp.h conftest.h
+      if $MAKE >&AS_MESSAGE_LOG_FD 2>&1; then
+        at_cv_qt_build='ok, looks like Qt 4, release mode forced'
+      else
+        echo "$as_me:$LINENO: Build failed, trying to #include <qobject.h> \
+instead" >&AS_MESSAGE_LOG_FD
+        sed 's/<QObject>/<qobject.h>/' conftest.h > tmp.h && mv tmp.h conftest.h
+        if $MAKE >&AS_MESSAGE_LOG_FD 2>&1; then
+          at_cv_qt_build='ok, looks like Qt 3, release mode forced'
+        else
+          at_cv_qt_build=ko
+          echo "$as_me:$LINENO: failed program was:" >&AS_MESSAGE_LOG_FD
+          sed 's/^/| /' conftest.h >&AS_MESSAGE_LOG_FD
+          echo "$as_me:$LINENO: failed program was:" >&AS_MESSAGE_LOG_FD
+          sed 's/^/| /' conftest.cpp >&AS_MESSAGE_LOG_FD
+        fi # if make with Qt3-style #include and release mode forced.
+      fi # if make with Qt4-style #include and release mode forced.
+    fi # if make with Qt3-style #include.
+  fi # if make with Qt4-style #include.
   ])dnl end: AC_CACHE_CHECK(at_cv_qt_build)
 
   if test x"$at_cv_qt_build" = xko; then
