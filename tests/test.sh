@@ -75,8 +75,10 @@
 #
 # You can also use `GEN=stderr' or `GEN=ret'.
 # If you encounter any problem, try `make check DEBUG=1'
-# You can also `make check SILENT=1' in order to get rid of the tests'
-# outputs.
+# You can also `make check VERBOSE=1' in order to get the output on stdout and
+# stderr as the tests run. Note that when doing this, stdout will always
+# appear first, then stderr. Messages on stdout/stderr will not be interleaved
+# as they might originally be. This is because stdout/stderr are buffered.
 #
 # When you generate reference output files, you might want to version them.
 # When you run `make check GEN=something', files are generated in the build
@@ -87,6 +89,7 @@
 # new_reference_output_file [ret|stdout|stderr] <ref-file>
 new_reference_output_file()
 {
+  test -s $bprog.my_$1 && return 0 # Skip empty files.
   # Simply update existing reference output file.
   if test x"$2" != x; then
     cp -f $bprog.my_$1 $2
@@ -182,7 +185,7 @@ for i in stdout stderr; do
   ref_var=`eval echo \\\$$ref_var`
 
   # Display their output (a bit late...).
-  test "x$SILENT" != x || cat $bprog.my_$i
+  test "x$VERBOSE" != x && cat $bprog.my_$i
 
   # Are we trying to generate reference output files?
   if test "x$GEN" = x$i; then
