@@ -54,8 +54,8 @@
 #
 # bin_PROGRAMS = lcdrange
 # lcdrange_SOURCES =  lcdrange.cpp lcdrange.moc.cpp lcdrange.h main.cpp
-# lcdrange_CXXFLAGS = $(AM_CXXFLAGS) $(QT_CXXFLAGS)
-# lcdrange_CPPFLAGS = $(AM_CPPFLAGS) $(QT_CPPFLAGS)
+# lcdrange_CXXFLAGS = $(QT_CXXFLAGS) $(AM_CXXFLAGS)
+# lcdrange_CPPFLAGS = $(QT_CPPFLAGS) $(AM_CPPFLAGS)
 # lcdrange_LDFLAGS  = $(QT_LDFLAGS) $(LDFLAGS)
 # lcdrange_LDADD    = $(QT_LIBS) $(LDADD)
 #
