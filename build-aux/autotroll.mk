@@ -24,17 +24,25 @@
 # See autotroll.m4 :)
 
 
-SUFFIXES = .moc.cpp .cpp .cc .cxx .C
+SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh
 
+.hh.moc.cpp:
+	$(MOC) $(QT_CPPFLAGS) $< -o $@
 .h.moc.cpp:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
+.hh.moc.cc:
+	$(MOC) $(QT_CPPFLAGS) $< -o $@
 .h.moc.cc:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
+.hh.moc.cxx:
+	$(MOC) $(QT_CPPFLAGS) $< -o $@
 .h.moc.cxx:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
+.hh.moc.C:
+	$(MOC) $(QT_CPPFLAGS) $< -o $@
 .h.moc.C:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
