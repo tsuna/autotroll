@@ -24,7 +24,13 @@
 # See autotroll.m4 :)
 
 
-SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh
+SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh \
+           .ui .ui.h .ui.hh \
+           .qrc .qrc.cpp .qrc.cc .qrc.cxx .qrc.C
+
+# --- #
+# MOC #
+# --- #
 
 .hh.moc.cpp:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
@@ -46,6 +52,30 @@ SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh
 .h.moc.C:
 	$(MOC) $(QT_CPPFLAGS) $< -o $@
 
-# FIXME: Add support for UIC?
+# --- #
+# UIC #
+# --- #
+
+.ui.ui.hh:
+	$(UIC) $< -o $@
+
+.ui.ui.h:
+	$(UIC) $< -o $@
+
+# --- #
+# RCC #
+# --- #
+
+.qrc.qrc.cpp:
+	$(QRC) -name $(<:.qrc=) $< -o $@
+
+.qrc.qrc.cc:
+	$(QRC) -name $(<:.qrc=) $< -o $@
+
+.qrc.qrc.cxx:
+	$(QRC) -name $(<:.qrc=) $< -o $@
+
+.qrc.qrc.C:
+	$(QRC) -name $(<:.qrc=) $< -o $@
 
 DISTCLEANFILES = $(BUILT_SOURCES)
