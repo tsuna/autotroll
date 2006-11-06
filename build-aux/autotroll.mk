@@ -67,15 +67,15 @@ SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh \
 # --- #
 
 .qrc.qrc.cpp:
-	$(QRC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
+	$(RCC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
 
 .qrc.qrc.cc:
-	$(QRC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
+	$(RCC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
 
 .qrc.qrc.cxx:
-	$(QRC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
+	$(RCC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
 
 .qrc.qrc.C:
-	$(QRC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
+	$(RCC) -name `echo "$<" | sed 's/\.qrc$$//'` $< -o $@
 
 DISTCLEANFILES = $(BUILT_SOURCES)
