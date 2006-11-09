@@ -79,4 +79,5 @@ _ASEOF
   if test x"$qt_cv_lqscintilla2" = xno; then
     AC_MSG_ERROR([Cannot link with -lqscintilla2.])
   fi
+  AC_SUBST([QSCINTILLA2_LDFLAGS])
 ])
