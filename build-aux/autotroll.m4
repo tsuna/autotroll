@@ -148,8 +148,9 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   AC_SUBST([QT_PATH])
 
   # Get ready to build a test-app with Qt.
-  mkdir conftest.dir
-  cd conftest.dir
+  if mkdir conftest.dir && cd conftest.dir; then :; else
+    AC_MSG_ERROR([Cannot mkdir conftest.dir or cd to that directory.])
+  fi
   cat >conftest.h <<_ASEOF
 #include <QObject>
 
@@ -336,8 +337,7 @@ instead" >&AS_MESSAGE_LOG_FD
   ])
   AC_SUBST([QT_LIBS], [$at_cv_env_QT_LIBS])
 
-  cd ..
-  rm -rf conftest.dir
+  cd .. && rm -rf conftest.dir
 ])
 
 # _AT_TWEAK_PRO_FILE(QT_VAR, VALUE)

@@ -39,6 +39,9 @@ AC_DEFUN([WITH_QSCINTILLA2],
   # FIXME: Can we use a macro from autoconf to make something similar?
   AC_CACHE_CHECK([for lib qscintilla2], [qt_cv_lqscintilla2],
   [qt_cv_lqscintilla2=no
+  if mkdir conftest.dir && cd conftest.dir; then :; else
+    AC_MSG_ERROR([Cannot mkdir conftest.dir or cd to that directory.])
+  fi
   cat >conftest.cpp <<_ASEOF
 #include <qsciscintilla.h>
 #ifdef main  // Temporary work-around for Windows: Qt #defines main qMain
@@ -53,23 +56,35 @@ int main ()
   Test t;
 }
 _ASEOF
-  # Dirty hack :(
-  # Qt adds $(QT_DEFINES) in $QT_CXXFLAGS: we need to expand it here!
-  eval_qt_defines_sed="s/\$(QT_DEFINES)/$QT_DEFINES/"
-  MY_QT_CXXFLAGS=`echo "$QT_CXXFLAGS" | sed "$eval_qt_defines_sed"`
+  cat >Makefile <<_ASEOF
+CXX = $CXX
+QT_DEFINES = $QT_DEFINES
+QT_CPPFLAGS = $QT_CPPFLAGS
+AM_CPPFLAGS = $AM_CPPFLAGS
+CPPFLAGS = $CPPFLAGS
+QT_CXXFLAGS = $QT_CXXFLAGS
+AM_CXXFLAGS = $AM_CXXFLAGS
+CXXFLAGS = $CXXFLAGS
+QT_LDFLAGS = $QT_LDFLAGS
+LDFLAGS = $LDFLAGS
+QSCINTILLA2_LDFLAGS = $QSCINTILLA2_LDFLAGS
+QT_LIBS = $QT_LIBS
+LIBS = $LIBS
 
-  echo "$as_me:$LINENO: running: $CXX $QT_CPPFLAGS $AM_CPPFLAGS $CPPFLAGS \
+all: conftest$EXEEXT
+
+conftest$EXEEXT: conftest.cpp
+	$CXX $QT_CPPFLAGS $AM_CPPFLAGS $CPPFLAGS \
           $MY_QT_CXXFLAGS $AM_CXXFLAGS $CXXFLAGS \
           conftest.cpp -o conftest$EXEEXT \
           $QT_LDFLAGS $LDFLAGS \
-          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS" \
-        >&AS_MESSAGE_LOG_FD
-  if $CXX $QT_CPPFLAGS $AM_CPPFLAGS $CPPFLAGS \
-          $MY_QT_CXXFLAGS $AM_CXXFLAGS $CXXFLAGS \
-          conftest.cpp -o conftest$EXEEXT \
-          $QT_LDFLAGS $LDFLAGS \
-          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS \
-       >&AS_MESSAGE_LOG_FD 2>&1;
+          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS
+_ASEOF
+
+  : ${MAKE=make}
+  echo "$as_me:$LINENO: running $MAKE to check that qscintilla2 works:" \
+    >&AS_MESSAGE_LOG_FD
+  if $MAKE >&AS_MESSAGE_LOG_FD 2>&1;
   then
     if test x"$QT_LIBS" != x; then
       qt_cv_lqscintilla2="$QSCINTILLA2_LDFLAGS + Qt stuff"
@@ -80,8 +95,11 @@ _ASEOF
   if test x"$qt_cv_lqscintilla2" = xno; then
     echo "$as_me:$LINENO: failed program was:" >&AS_MESSAGE_LOG_FD
     sed 's/^/| /' conftest.cpp >&AS_MESSAGE_LOG_FD
+    echo "$as_me:$LINENO: tried to compile with the following Makefile:" \
+      >&AS_MESSAGE_LOG_FD
+    sed 's/^/| /' Makefile >&AS_MESSAGE_LOG_FD
   fi
-  rm -f conftest.cpp conftest$EXEEXT
+  cd .. && rm -rf conftest.dir
   ])dnl End of AC_CACHE_CHECK for -lqscintilla2
 
   if test x"$qt_cv_lqscintilla2" = xno; then
