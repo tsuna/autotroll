@@ -38,6 +38,9 @@ AC_DEFUN([WITH_QSCINTILLA2],
   [qt_cv_lqscintilla2=no
   cat >conftest.cpp <<_ASEOF
 #include <qsciscintilla.h>
+#ifdef main  // Temporary work-around for Windows: Qt #defines main qMain
+# undef main // but for some reason *I* can't link Qt apps because the linker
+#endif       // fails to find it. To be FIXME'd.
 struct Test: public QsciScintilla
 {
 };
