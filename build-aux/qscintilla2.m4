@@ -24,6 +24,9 @@
 
 # WITH_QSCINTILLA2()
 # ------------------
+# Check whether QsciScintilla2 is installed and usable.
+# Defines $(QSCINTILLA2_LDFLAGS) which must be used before the Qt flags (if
+# any).
 AC_DEFUN([WITH_QSCINTILLA2],
 [ AC_REQUIRE([AC_PROG_CXX])
   AC_REQUIRE([AC_EXEEXT])
@@ -57,13 +60,15 @@ _ASEOF
 
   echo "$as_me:$LINENO: running: $CXX $QT_CPPFLAGS $AM_CPPFLAGS $CPPFLAGS \
           $MY_QT_CXXFLAGS $AM_CXXFLAGS $CXXFLAGS \
+          conftest.cpp -o conftest$EXEEXT \
           $QT_LDFLAGS $LDFLAGS \
-          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS conftest.cpp -o conftest$EXEEXT;" \
+          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS" \
         >&AS_MESSAGE_LOG_FD
   if $CXX $QT_CPPFLAGS $AM_CPPFLAGS $CPPFLAGS \
           $MY_QT_CXXFLAGS $AM_CXXFLAGS $CXXFLAGS \
+          conftest.cpp -o conftest$EXEEXT \
           $QT_LDFLAGS $LDFLAGS \
-          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS conftest.cpp -o conftest$EXEEXT \
+          $QSCINTILLA2_LDFLAGS $QT_LIBS $LIBS \
        >&AS_MESSAGE_LOG_FD 2>&1;
   then
     if test x"$QT_LIBS" != x; then
