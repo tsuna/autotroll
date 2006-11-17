@@ -340,6 +340,29 @@ instead" >&AS_MESSAGE_LOG_FD
   cd .. && rm -rf conftest.dir
 ])
 
+# AT_REQUIRE_QT_VERSION(QT_version)
+# ---------------------------------
+# Check (using qmake) that Qt's version "matches" QT_version.
+# Must be run AFTER AT_WITH_QT. Requires autoconf 2.60.
+AC_DEFUN([AT_REQUIRE_QT_VERSION],
+[ AC_PREREQ([2.60])
+  if test x"$QMAKE" = x; then
+    AC_MSG_ERROR([\$QMAKE is empty. \
+Did you invoke AT@&t@_WITH_QT before AT@&t@_REQUIRE_QT_VERSION?])
+  fi
+  AC_CACHE_CHECK([for Qt's version], [at_cv_QT_VERSION],
+  [echo "$as_me:$LINENO: Running $QMAKE --version:" >&AS_MESSAGE_LOG_FD
+  $QMAKE --version >&AS_MESSAGE_LOG_FD
+  at_cv_QT_VERSION=`$QMAKE --version | sed '1d; s/.*version *//;
+                                            s/\(@<:@0-9.@:>@*\).*/\1/'`])
+  if test x"$at_cv_QT_VERSION" = x; then
+    AC_MSG_ERROR([Cannot detect Qt's version.])
+  fi
+  AC_SUBST([QT_VERSION], [$at_cv_QT_VERSION])
+  AS_VERSION_COMPARE([$QT_VERSION], [$1],
+    [AC_MSG_ERROR([This package requires Qt $1 or above.])])
+])
+
 # _AT_TWEAK_PRO_FILE(QT_VAR, VALUE)
 # ---------------------------
 # @internal. Tweak the variable QT_VAR in the .pro.
