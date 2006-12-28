@@ -43,7 +43,7 @@ AC_DEFUN([WITH_QSCINTILLA2],
     AC_MSG_ERROR([Cannot mkdir conftest.dir or cd to that directory.])
   fi
   cat >conftest.cpp <<_ASEOF
-#include <qsciscintilla.h>
+#include <Qsci/qsciscintilla.h>
 #ifdef main  // Temporary work-around for Windows: Qt #defines main qMain
 # undef main // but for some reason *I* can't link Qt apps because the linker
 #endif       // fails to find it. To be FIXME'd.
