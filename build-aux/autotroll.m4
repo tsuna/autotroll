@@ -108,6 +108,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
               [QT_PATH=$withval], [QT_PATH=])
 
   # Find Qt.
+  AC_ARG_VAR([QT_PATH], [Path to the Qt installation])
   if test -d /usr/local/Trolltech; then
     # Try to find the latest version.
     tmp_qt_paths=`echo /usr/local/Trolltech/*/bin | tr ' ' '\n' | sort -nr \
@@ -115,24 +116,31 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   fi
 
   # Find qmake.
-  AC_PATH_PROGS([QMAKE], [qmake], [missing], [$QT_DIR:$QT_PATH:$PATH:$tmp_qt_paths])
+  AC_ARG_VAR([QMAKE], [Qt Makefile generator command])
+  AC_PATH_PROGS([QMAKE], [qmake qmake-qt4 qmake-qt3], [missing],
+                [$QT_DIR:$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$QMAKE" = xmissing; then
     AC_MSG_ERROR([Cannot find qmake in your PATH. Try using --with-qt.])
   fi
 
   # Find moc (Meta Object Compiler).
-  AC_PATH_PROGS([MOC], [moc], [missing], [$QT_PATH:$PATH:$tmp_qt_paths])
+  AC_ARG_VAR([MOC], [Qt Meta Object Compiler command])
+  AC_PATH_PROGS([MOC], [moc moc-qt4 moc-qt3], [missing],
+                [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$MOC" = xmissing; then
     AC_MSG_ERROR([Cannot find moc (Meta Object Compiler) in your PATH. Try using --with-qt.])
   fi
 
   # Find uic (User Interface Compiler).
-  AC_PATH_PROGS([UIC], [uic], [missing], [$QT_PATH:$PATH:$tmp_qt_paths])
+  AC_ARG_VAR([UIC], [Qt User Interface Compiler command])
+  AC_PATH_PROGS([UIC], [uic uic-qt4 uic-qt3 uic3], [missing],
+                [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$UIC" = xmissing; then
     AC_MSG_ERROR([Cannot find uic (User Interface Compiler) in your PATH. Try using --with-qt.])
   fi
 
   # Find rcc (Qt Resource Compiler).
+  AC_ARG_VAR([RCC], [Qt Resource Compiler command])
   AC_PATH_PROGS([RCC], [rcc], [false], [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$UIC" = xfalse; then
     AC_MSG_WARN([Cannot find rcc (Qt Resource Compiler) in your PATH. Try using --with-qt.])
