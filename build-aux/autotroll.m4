@@ -251,6 +251,16 @@ m4_ifval([$3],
   if $QMAKE; then :; else
     AC_MSG_ERROR([Calling $QMAKE failed.])
   fi
+
+  # Qmake from Qt-4.3.2 generates Makefile with slashes instead of backslashes
+  # on mingw and this lead to an error (see #96). The followind sed call is a
+  # work around this issue.
+  case $host_os in
+     *mingw*|*cygwin*)
+        sed -i 's|\([^ ]\)/|\1\\|g' Makefile
+	;;
+  esac
+
   # Try to compile a simple Qt app.
   AC_CACHE_CHECK([whether we can build a simple Qt app], [at_cv_qt_build],
   [at_cv_qt_build=ko
