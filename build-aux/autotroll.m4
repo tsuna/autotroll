@@ -257,7 +257,10 @@ m4_ifval([$3],
   # work around this issue.
   case $host_os in
      *mingw*|*cygwin*)
-        sed -i 's|\([^ ]\)/|\1\\|g' Makefile
+        # We substitute only slashes with a leading non whitespace to avoid
+	# conversion of slashes used in windows tool options. Fortunately all
+	# path are relative...
+        perl -i -p -e 's,(\S)/,\1\\,g' Makefile
 	;;
   esac
 
