@@ -260,7 +260,7 @@ m4_ifval([$3],
         # We substitute only slashes with a leading non whitespace to avoid
 	# conversion of slashes used in windows tool options. Fortunately all
 	# path are relative...
-        perl -i -p -e 's,(\S)/,\1\\,g' Makefile
+        perl -i -p -e 's,\.\./\.\./\.\.,/cygdrive/c,g' Makefile Makefile.Release Makefile.Debug
 	;;
   esac
 
