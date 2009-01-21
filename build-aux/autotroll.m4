@@ -84,7 +84,7 @@
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
 m4_define([_AUTOTROLL_SERIAL], [m4_translit([
-# serial 2
+# serial 3
 ], [#
 ], [])])
 
@@ -138,7 +138,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   AC_ARG_WITH([qt],
               [AS_HELP_STRING([--with-qt],
                  [Path to Qt @<:@Look in PATH and /usr/local/Trolltech@:>@])],
-              [QT_PATH=$withval], [QT_PATH=])
+              [QT_PATH=$withval])
 
   # this is a hack to get decent flow control with 'break'
   for _qt_ignored in once; do
