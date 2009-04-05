@@ -376,7 +376,7 @@ instead" >&AS_MESSAGE_LOG_FD
   if test x"$at_cv_qt_build" = xko; then
     AC_MSG_ERROR([Cannot build a test Qt program])
   fi
-  QT_VERSION_MAJOR=`echo "$at_cv_qt_build" | sed 's/^[^0-9]*//'`
+  QT_VERSION_MAJOR=`echo "$at_cv_qt_build" | sed 's/[[^0-9]]*//g'`
   AC_SUBST([QT_VERSION_MAJOR])
 
   # This sed filter is applied after an expression of the form: /^FOO.*=/!d;
