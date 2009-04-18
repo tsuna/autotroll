@@ -83,6 +83,18 @@
 # course you can use .cpp or .cxx or .C rather than .cc) AutoTroll will build
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
+m4_define([_AUTOTROLL_SERIAL], [m4_translit([
+# serial 1
+], [#
+], [])])
+
+
+m4_ifdef([AX_INSTEAD_IF], [],
+[AC_DEFUN([AX_INSTEAD_IF],
+  [m4_ifval([$1],
+    [AC_MSG_WARN([$2]); [$1]],
+    [AC_MSG_ERROR([$2])])])])
+
 m4_pattern_forbid([^AT_])dnl
 m4_pattern_forbid([^_AT_])dnl
 
@@ -111,9 +123,10 @@ m4_pattern_forbid([^_AT_])dnl
 # the build process of Qt apps if tweaking the QT or CONFIG variables isn't
 # enough for you.
 AC_DEFUN([AT_WITH_QT],
-[ AC_REQUIRE([AC_CANONICAL_HOST])
-  AC_REQUIRE([AC_CANONICAL_BUILD])
-  AC_REQUIRE([AC_PROG_CXX])
+[AC_REQUIRE([AC_CANONICAL_HOST])dnl
+AC_REQUIRE([AC_CANONICAL_BUILD])dnl
+AC_REQUIRE([AC_PROG_CXX])dnl
+echo "$as_me: this is autotroll.m4[]_AUTOTROLL_SERIAL" >&AS_MESSAGE_LOG_FD
 
   test x"$TROLL" != x && echo 'ViM rox emacs.'
 
@@ -159,7 +172,8 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   AC_ARG_VAR([RCC], [Qt Resource Compiler command])
   AC_PATH_PROGS([RCC], [rcc], [false], [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$UIC" = xfalse; then
-    AC_MSG_WARN([Cannot find rcc (Qt Resource Compiler) in your PATH. Try using --with-qt.])
+    AC_MSG_WARN([Cannot find rcc (Qt Resource Compiler) in your PATH.\
+  Try using --with-qt.])
   fi
 
   # If we don't know the path to Qt, guess it from the path to qmake.
@@ -358,7 +372,7 @@ instead" >&AS_MESSAGE_LOG_FD
       else
         echo "$as_me:$LINENO: Build failed, trying to #include <qobject.h> \
 instead" >&AS_MESSAGE_LOG_FD
-        sed 's/<QObject>/<qobject.h>/' conftest.h > tmp.h && mv tmp.h conftest.h
+        sed 's/<QObject>/<qobject.h>/' conftest.h >tmp.h && mv tmp.h conftest.h
         if $MAKE >&AS_MESSAGE_LOG_FD 2>&1; then
           at_cv_qt_build='ok, looks like Qt 3, release mode forced'
         else
