@@ -191,6 +191,17 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   Try using --with-qt.])
   fi
 
+  AC_MSG_CHECKING([whether host operating system is Darwin])
+  at_darwin=no
+  at_qmake_args=
+  case $host_os in
+    darwin*)
+      at_darwin=yes
+      at_qmake_args='-spec macx-g++'
+      ;;
+  esac
+  AC_MSG_RESULT([$at_darwin])
+
   # If we don't know the path to Qt, guess it from the path to qmake.
   if test x"$QT_PATH" = x; then
     QT_PATH=`dirname "$QMAKE"`
@@ -271,8 +282,8 @@ m4_ifval([$3],
   echo "$as_me:$LINENO: Invoking $QMAKE on $pro_file" >&AS_MESSAGE_LOG_FD
   sed 's/^/| /' "$pro_file" >&AS_MESSAGE_LOG_FD
 
-  if $QMAKE; then :; else
-    AX_INSTEAD_IF([$4], [Calling $QMAKE failed.])
+  if $QMAKE $at_qmake_args; then :; else
+    AX_INSTEAD_IF([$4], [Calling $QMAKE $at_qmake_args failed.])
     break
   fi
 
@@ -466,15 +477,6 @@ instead" >&AS_MESSAGE_LOG_FD
   [at_cv_env_QT_LDFLAGS=`sed "/^LFLAGS@<:@^A-Z=@:>@*=/!d;$qt_sed_filter" $at_mfile`])
   AC_SUBST([QT_LFLAGS], [$at_cv_env_QT_LDFLAGS])
   AC_SUBST([QT_LDFLAGS], [$at_cv_env_QT_LDFLAGS])
-
-  AC_MSG_CHECKING([whether host operating system is Darwin])
-  at_darwin="no"
-  case $host_os in
-    darwin*)
-      at_darwin="yes"
-      ;;
-  esac
-  AC_MSG_RESULT([$at_darwin])
 
   # Find the LIBS of Qt.
   AC_CACHE_CHECK([for the LIBS to use with Qt], [at_cv_env_QT_LIBS],
