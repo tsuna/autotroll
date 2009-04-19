@@ -84,7 +84,7 @@
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
 m4_define([_AUTOTROLL_SERIAL], [m4_translit([
-# serial 3
+# serial 4
 ], [#
 ], [])])
 
@@ -150,6 +150,9 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
     tmp_qt_paths=`echo /usr/local/Trolltech/*/bin | tr ' ' '\n' | sort -nr \
                                               | xargs | sed 's/  */:/g'`
   fi
+  # Path to which recent MacPorts (~v1.7) install Qt4.
+  test -d /opt/local/libexec/qt4-mac/bin \
+    && tmp_qt_paths="$tmp_qt_paths:/opt/local/libexec/qt4-mac/bin"
 
   # Find qmake.
   AC_ARG_VAR([QMAKE], [Qt Makefile generator command])
