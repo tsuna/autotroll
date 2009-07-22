@@ -228,9 +228,9 @@ class Foo: public QObject
 public:
   Foo();
   ~Foo() {}
-public slots:
+public Q_SLOTS:
   void setValue(int value);
-signals:
+Q_SIGNALS:
   void valueChanged(int newValue);
 private:
   int value_;
