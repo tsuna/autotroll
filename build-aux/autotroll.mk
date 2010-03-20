@@ -1,6 +1,6 @@
 # Makerules.
 # This file is part of AutoTroll.
-# Copyright (C) 2006  Benoit Sigoure.
+# Copyright (C) 2006, 2007, 2009, 2010  Benoit Sigoure.
 #
 # AutoTroll is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,29 +40,37 @@
 # See autotroll.m4 :)
 
 
-SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh \
-           .ui .ui.h .ui.hh \
+SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh .hpp \
+           .ui .ui.h .ui.hh .ui.hpp \
            .qrc .qrc.cpp .qrc.cc .qrc.cxx .qrc.C
 
 # --- #
 # MOC #
 # --- #
 
+.hpp.moc.cpp:
+	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .hh.moc.cpp:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .h.moc.cpp:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 
+.hpp.moc.cc:
+	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .hh.moc.cc:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .h.moc.cc:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 
+.hpp.moc.cxx:
+	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .hh.moc.cxx:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .h.moc.cxx:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 
+.hpp.moc.C:
+	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .hh.moc.C:
 	$(MOC) $(QT_CPPFLAGS) $(EXTRA_CPPFLAGS) $< -o $@
 .h.moc.C:
@@ -71,6 +79,9 @@ SUFFIXES = .moc.cpp .moc.cc .moc.cxx .moc.C .h .hh \
 # --- #
 # UIC #
 # --- #
+
+.ui.ui.hpp:
+	$(UIC) $< -o $@
 
 .ui.ui.hh:
 	$(UIC) $< -o $@
