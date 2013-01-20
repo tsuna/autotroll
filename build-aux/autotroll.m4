@@ -1,7 +1,7 @@
 # Build Qt apps with the autotools (Autoconf/Automake).
 # M4 macros.
 # This file is part of AutoTroll.
-# Copyright (C) 2006  Benoit Sigoure <benoit.sigoure@lrde.epita.fr>
+# Copyright (C) 2006-2013  Benoit Sigoure <benoit.sigoure@lrde.epita.fr>
 #
 # AutoTroll is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -90,7 +90,7 @@
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
 m4_define([_AUTOTROLL_SERIAL], [m4_translit([
-# serial 7
+# serial 8
 ], [#
 ], [])])
 
@@ -100,6 +100,17 @@ m4_ifdef([AX_INSTEAD_IF], [],
   [m4_ifval([$1],
     [AC_MSG_WARN([$2]); [$1]],
     [AC_MSG_ERROR([$2])])])])
+
+
+# AX_PATH_TOOLS(VARIABLE, PROGS-TO-CHECK-FOR, [VALUE-IF-NOT-FOUND], [PATH])
+# -------------------------------------------------------------------------
+AC_DEFUN([AX_PATH_TOOLS],
+[for ax_tool in $2; do
+  AX_PATH_TOOLS([$1], [$ax_tool], , [$4])
+  test -n "$$1" && break
+done
+m4_ifval([$3], [test -n "$$1" || $1="$3"])
+])
 
 m4_pattern_forbid([^AT_])dnl
 m4_pattern_forbid([^_AT_])dnl
@@ -176,7 +187,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
 
   # Find qmake.
   AC_ARG_VAR([QMAKE], [Qt Makefile generator command])
-  AC_PATH_TOOL([QMAKE], [qmake qmake-qt4 qmake-qt3], [missing],
+  AX_PATH_TOOLS([QMAKE], [qmake qmake-qt4 qmake-qt3], [missing],
                 [$QT_DIR:$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$QMAKE" = xmissing; then
     AX_INSTEAD_IF([$4], [Cannot find qmake. Try --with-qt=PATH.])
@@ -185,7 +196,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
 
   # Find moc (Meta Object Compiler).
   AC_ARG_VAR([MOC], [Qt Meta Object Compiler command])
-  AC_PATH_TOOL([MOC], [moc moc-qt4 moc-qt3], [missing],
+  AX_PATH_TOOLS([MOC], [moc moc-qt4 moc-qt3], [missing],
                 [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$MOC" = xmissing; then
     AX_INSTEAD_IF([$4],
@@ -195,7 +206,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
 
   # Find uic (User Interface Compiler).
   AC_ARG_VAR([UIC], [Qt User Interface Compiler command])
-  AC_PATH_TOOL([UIC], [uic uic-qt4 uic-qt3 uic3], [missing],
+  AX_PATH_TOOLS([UIC], [uic uic-qt4 uic-qt3 uic3], [missing],
                 [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$UIC" = xmissing; then
     AX_INSTEAD_IF([$4],
@@ -205,7 +216,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
 
   # Find rcc (Qt Resource Compiler).
   AC_ARG_VAR([RCC], [Qt Resource Compiler command])
-  AC_PATH_TOOL([RCC], [rcc], [false], [$QT_PATH:$PATH:$tmp_qt_paths])
+  AX_PATH_TOOLS([RCC], [rcc], [false], [$QT_PATH:$PATH:$tmp_qt_paths])
   if test x"$UIC" = xfalse; then
     AC_MSG_WARN([Cannot find rcc (Qt Resource Compiler). Try --with-qt=PATH.])
   fi
