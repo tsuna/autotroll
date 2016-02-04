@@ -106,7 +106,7 @@ m4_ifdef([AX_INSTEAD_IF], [],
 # -------------------------------------------------------------------------
 AC_DEFUN([AX_PATH_TOOLS],
 [for ax_tool in $2; do
-  AX_PATH_TOOLS([$1], [$ax_tool], , [$4])
+  AC_PATH_TOOL([$1], [$ax_tool], , [$4])
   test -n "$$1" && break
 done
 m4_ifval([$3], [test -n "$$1" || $1="$3"])
