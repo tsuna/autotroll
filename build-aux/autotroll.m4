@@ -222,8 +222,8 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
 
   # Find rcc (Qt Resource Compiler).
   AC_ARG_VAR([RCC], [Qt Resource Compiler command])
-  AX_PATH_TOOLS([RCC], [rcc rcc-qt5], [false], [$QT_PATH:$PATH:$tmp_qt_paths])
-  if test x"$UIC" = xfalse; then
+  AX_PATH_TOOLS([RCC], [rcc rcc-qt5], [missing], [$QT_PATH:$PATH:$tmp_qt_paths])
+  if test x"$RCC" = xmissing; then
     AC_MSG_WARN([Cannot find rcc (Qt Resource Compiler). Try --with-qt=PATH.])
   fi
 
