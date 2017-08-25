@@ -110,7 +110,7 @@ m4_ifdef([AX_INSTEAD_IF], [],
 # -------------------------------------------------------------------------
 AC_DEFUN([AX_PATH_TOOLS],
 [for ax_tool in $2; do
-  AC_PATH_TOOL([$1], [$ax_tool], , [$4])
+  AC_PATH_TOOL([$1], [$ax_tool], [], [$4])
   test -n "$$1" && break
 done
 m4_ifval([$3], [test -n "$$1" || $1="$3"])
@@ -231,6 +231,7 @@ dnl Memo: AC_ARG_WITH(package, help-string, [if-given], [if-not-given])
   at_darwin=no
   at_qmake_args=
   case $host_os in
+    dnl (
     darwin*)
       at_darwin=yes
       at_qmake_args='-spec macx-g++'
@@ -551,6 +552,8 @@ instead" >&AS_MESSAGE_LOG_FD
 # RUN-IF-FAILED is arbitrary code to execute if Qt cannot be found or if any
 # problem happens.  If this argument is omitted, then AC_MSG_ERROR will be
 # called.  RUN-IF-OK is arbitrary code to execute if Qt was successfully found.
+#
+# This macro provides the Qt version in $(QT_VERSION).
 AC_DEFUN([AT_REQUIRE_QT_VERSION],
 [ AC_PREREQ([2.60])
   # This is a hack to get decent flow control with 'break'.
