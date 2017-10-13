@@ -105,7 +105,7 @@
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
 m4_define([_AUTOTROLL_SERIAL], [m4_translit([
-# serial 11
+# serial 12
 ], [#
 ], [])])
 
