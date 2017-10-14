@@ -1,3 +1,15 @@
 This is a demo of AutoTroll.
 
-Please note that AutoTroll is distributed under the GPLv2+ with exception.
+It shows how to use the [Qt GUI library](https://www.qt.io) with
+[automake](https://www.gnu.org/software/automake), a tool for generating
+`Makefile.in` file templates, which in turn are converted to real
+`Makefile`s using [autoconf](https://www.gnu.org/software/autoconf).
+
+AutoTroll is distributed under the GPLv2+ with exception.
+
+Currently, the main file of interest in this repository is
+`build-aux/autotroll.m4`, which works with Qt5.  All other files are still
+related mainly to Qt3.
+
+See the git repository of [ttfautohint](http://repo.or.cz/ttfautohint.git/)
+for an example project that uses (a recent incarnation of) autotroll.
