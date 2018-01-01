@@ -105,7 +105,7 @@
 # them automagically for you (using implicit rules defined in autotroll.mk).
 
 m4_define([_AUTOTROLL_SERIAL], [m4_translit([
-# serial 12
+# serial 13
 ], [#
 ], [])])
 
@@ -592,7 +592,7 @@ AC_DEFUN([AT_REQUIRE_QT_VERSION],
   AC_CACHE_CHECK([for Qt's version], [at_cv_QT_VERSION],
   [echo "$as_me:$LINENO: Running $QMAKE --version:" >&AS_MESSAGE_LOG_FD
   $QMAKE --version >&AS_MESSAGE_LOG_FD 2>&1
-  qmake_version_sed=['/^.*\([0-9]\.[0-9]\.[0-9]\).*$/!d;s//\1/']
+  qmake_version_sed=['/^.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*$/!d;s//\1/']
   at_cv_QT_VERSION=`$QMAKE --version 2>&1 | sed "$qmake_version_sed"`])
   if test x"$at_cv_QT_VERSION" = x; then
     AX_INSTEAD_IF([$2], [Cannot detect Qt's version.])
