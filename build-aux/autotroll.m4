@@ -338,7 +338,7 @@ m4_ifval([$3],
   # -I../../usr/include/Qt from that Makefile, the flag is invalid as soon
   # as we use it in another (sub) directory.  So what this perl pass does is
   # that it rewrite all relative paths to absolute paths.  Another problem
-  # when building on Cygwin is that QMake mixes paths with blackslashes and
+  # when building on Cygwin is that QMake mixes paths with backslashes and
   # forward slashes and paths must be handled with extra care because of the
   # stupid Windows drive letters.
   echo "$as_me:$LINENO: fixing the Makefiles:" Makefile* >&AS_MESSAGE_LOG_FD
