@@ -59,6 +59,13 @@
 #
 #  - Add option `--without-qt', which is equivalent to `--with-qt=no'.
 #
+#  - On MacOS, add `-spec macx-g++' to qmake.  This can be overridden
+#    with the QMAKESPEC environment variable, for example
+#
+#      QMAKESPEC='macx-clang' ./configure ...
+#
+#    (The QMAKESPEC variable is honoured for non-MacOS builds also.)
+#
 #  - If Qt support is enabled, define C preprocessor macro HAVE_QT.
 #
 #  - Find the programs `qmake', `moc', `uic', and `rcc' and save them
@@ -120,7 +127,7 @@
 
 m4_define([_AUTOTROLL_SERIAL],
   [m4_translit([
-# serial 13
+# serial 14
 ], [#
 ], [])])
 
@@ -275,10 +282,21 @@ AC_DEFUN([AT_WITH_QT],
        dnl (
        darwin*)
          at_darwin=yes
-         at_qmake_args='-spec macx-g++'
          ;;
      esac
      AC_MSG_RESULT([$at_darwin])
+
+     AC_MSG_CHECKING([whether QMAKESPEC environment variable is set])
+     if test x"$QMAKESPEC" = x; then
+       if test x"$at_darwin" = xyes; then
+         at_qmake_args='-spec macx-g++'
+         AC_MSG_RESULT([no, using $at_qmake_args])
+       else
+         AC_MSG_RESULT([no])
+       fi
+     else
+       AC_MSG_RESULT([yes, using $QMAKESPEC])
+     fi
 
      # If we don't know the path to Qt, guess it from the path to
      # qmake.
