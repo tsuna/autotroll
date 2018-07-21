@@ -127,7 +127,7 @@
 
 m4_define([_AUTOTROLL_SERIAL],
   [m4_translit([
-# serial 14
+# serial 15
 ], [#
 ], [])])
 
