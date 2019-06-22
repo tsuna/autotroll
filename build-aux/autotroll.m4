@@ -571,14 +571,22 @@ EOF
      AC_SUBST([QT_VERSION_MAJOR])
 
      # This sed filter is applied after an expression of the form
-     # /^FOO.*=/!d; it starts by removing the beginning of the line,
-     # removing references to SUBLIBS, removing unnecessary
-     # whitespaces at the beginning, and prefixes all variable uses by
-     # QT_.
+     # /^FOO.*=/!d; it starts by removing the beginning of the line
+     # (using the empty regular expression //, which repeats the last
+     # regular expression match), removing references to SUBLIBS,
+     # removing unnecessary whitespace at the beginning, then prefixing
+     # our exported variables with QT_.  Note that `LDFLAGS' is
+     # intentionally omitted.
      qt_sed_filter='s///;
                     s/$(SUBLIBS)//g;
                     s/^ *//;
-                    s/\$(\(@<:@A-Z_@:>@@<:@A-Z_@:>@*\))/$(QT_\1)/g'
+                    s/\$(DEFINES)/$(QT_DEFINES)/g;
+                    s/\$(CFLAGS)/$(QT_CFLAGS)/g;
+                    s/\$(CXXFLAGS)/$(QT_CXXFLAGS)/g;
+                    s/\$(INCPATH)/$(QT_INCPATH)/g;
+                    s/\$(CPPFLAGS)/$(QT_CPPFLAGS)/g;
+                    s/\$(LFLAGS)/$(QT_LFLAGS)/g;
+                    s/\$(LIBS)/$(QT_LIBS)/g'
 
      # Find the Makefile (qmake happens to generate a fake Makefile
      # which invokes a Makefile.Debug or Makefile.Release).  If we
