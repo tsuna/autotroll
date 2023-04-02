@@ -4,7 +4,7 @@
 # This file is part of AutoTroll.
 #
 # Copyright (C) 2006-2018  Benoit Sigoure <benoit.sigoure@lrde.epita.fr>
-# Copyright (C) 2012-2022  Werner Lemberg <wl@gnu.org>
+# Copyright (C) 2012-2023  Werner Lemberg <wl@gnu.org>
 #
 # AutoTroll is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by
@@ -128,7 +128,7 @@
 
 m4_define([_AUTOTROLL_SERIAL],
   [m4_translit([
-# serial 16
+# serial 17
 ], [#
 ], [])])
 
